@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     def versions = rootProject.ext.versions
     compileSdkVersion versions.compileSdkVersion
+
     defaultConfig {
         applicationId versions.applicationId
         minSdkVersion versions.minSdkVersion
@@ -11,12 +12,55 @@ android {
         versionName versions.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs{
+        release{
+            storeFile file("../skin.jks")
+            storePassword "666666"
+            keyAlias "skin"
+            keyPassword "666666"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug{
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions 'blue'
+
+    productFlavors{
+        SKIN_ALL{
+            "applicationId" "com.jf.skinfull"
+            "versionName" "1.0.a"
+            manifestPlaceholders = [APP_NAME:"Skiner 完全版"]
+            buildConfigField("String","HOST","\"http://www.jf.skinall\"")
+            buildConfigField("boolean","isTest","false")
+        }
+
+        SKIN_MODULE{
+            "applicationId" "com.jf.skinmodule"
+            "versionName" "1.0.m"
+            manifestPlaceholders = [APP_NAME:"Skiner 分离版"]
+            buildConfigField("String","HOST","\"http://www.jf.skinmodule\"")
+            buildConfigField("boolean","isTest","true")
+        }
+    }
+
+    //自定义输出配置
+    android.applicationVariants.all {variant->
+        variant.outputs.all{
+            outputFileName = "APP_${versions.versionName}[${versions.versionCode}].apk"
+        }
+    }
+
     dataBinding {
         enabled = true
     }
@@ -30,7 +74,7 @@ dependencies {
     implementation deps.suport.design
     // ViewModel 和 LiveData
     implementation deps.suport.lifecycle
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 

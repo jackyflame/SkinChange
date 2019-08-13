@@ -26,3 +26,7 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task printVersion(){
+    println("APP版本是：${versions.versionName} 版本号是：${versions.versionCode} getRootDir:${getRootDir().getPath()}")
+}
