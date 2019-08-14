@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import com.jf.router.api.Router;
+import com.jf.router.api.RouterManager;
 
 public class BHomeActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class BHomeActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Router.getInstance().jump("/A/home");
+                RouterManager.getInstance().jump("/A/home");
             }
         });
     }

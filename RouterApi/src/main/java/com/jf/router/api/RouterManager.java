@@ -7,18 +7,18 @@ import android.content.Intent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Router {
+public class RouterManager {
 
     private Map<String,Class> routerMap = new HashMap<>();
     private Context mContext;
 
-    private Router(){}
+    private RouterManager(){}
 
     private static class SingleHolder{
-        private static Router instance = new Router();
+        private static RouterManager instance = new RouterManager();
     }
 
-    public static Router getInstance(){
+    public static RouterManager getInstance(){
         return SingleHolder.instance;
     }
 
