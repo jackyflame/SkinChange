@@ -69,14 +69,13 @@ android {
 dependencies {
     def deps = rootProject.ext.deps
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.suport.appcompat
-    implementation deps.suport.constraintlayout
-    implementation deps.suport.design
-    // ViewModel 和 LiveData
-    implementation deps.suport.lifecycle
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(path: ':ModelA')
+    implementation project(path: ':ModelB')
+    implementation project(path: ':RouterApi')
+    implementation project(path: ':commlib')
 
 //    // 仅用 ViewModel
 //    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"

@@ -3,6 +3,7 @@
     package="com.jf.skinchange">
 
     <application
+        android:name=".base.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${APP_NAME}"
@@ -19,6 +20,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.main.HomeActivity"
+            android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

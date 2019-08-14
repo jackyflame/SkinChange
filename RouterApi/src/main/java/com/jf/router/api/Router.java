@@ -15,7 +15,7 @@ public class Router {
     private Router(){}
 
     private static class SingleHolder{
-        public static Router instance = new Router();
+        private static Router instance = new Router();
     }
 
     public static Router getInstance(){
@@ -23,7 +23,7 @@ public class Router {
     }
 
 
-    private void init(Application application){
+    public void init(Application application){
         this.mContext = application;
     }
 
@@ -36,6 +36,7 @@ public class Router {
             Class<?> cls = routerMap.get(path);
             Intent intent = new Intent(mContext,cls);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             mContext.startActivity(intent);
         }
     }

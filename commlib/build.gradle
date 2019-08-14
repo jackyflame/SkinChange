@@ -1,16 +1,12 @@
-if (rootProject.ext.asModule) {
-    apply plugin: 'com.android.library'
-} else {
-    apply plugin: 'com.android.application'
-}
+apply plugin: 'com.android.library'
 
 android {
-    def versions = rootProject.ext.versions
-    compileSdkVersion versions.compileSdkVersion
+    compileSdkVersion 28
+
 
     defaultConfig {
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
+        minSdkVersion 16
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -24,16 +20,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    def deps = rootProject.ext.deps
-    implementation deps.suport.appcompat
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(path: ':RouterApi')
-    implementation project(path: ':commlib')
+
+    api deps.suport.appcompat
+    api deps.suport.constraintlayout
+    api deps.suport.design
+    // ViewModel 和 LiveData
+    api deps.suport.lifecycle
 }
