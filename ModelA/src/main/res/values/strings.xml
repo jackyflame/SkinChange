@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Alib</string>
     <string name="title_activity_a_home">AHome</string>
+    <string name="title_activity_a_register">ARegister</string>
 </resources>

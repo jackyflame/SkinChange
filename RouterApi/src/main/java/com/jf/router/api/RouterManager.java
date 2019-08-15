@@ -1,5 +1,6 @@
 package com.jf.router.api;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public class RouterManager {
 
-    private Map<String,Class> routerMap = new HashMap<>();
+    private Map<String,Class<? extends Activity>> routerMap = new HashMap<>();
     private Context mContext;
 
     private RouterManager(){}
@@ -25,9 +26,10 @@ public class RouterManager {
 
     public void init(Application application){
         this.mContext = application;
+
     }
 
-    public void registRoute(String path,Class<?> cls){
+    public void registRoute(String path,Class<? extends Activity> cls){
         routerMap.put(path,cls);
     }
 
