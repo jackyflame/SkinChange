@@ -93,5 +93,4 @@ dependencies {
 //
 //    // LiveData测试
 //    testImplementation "android.arch.core:core-testing:$lifecycle_version"
-
 }
