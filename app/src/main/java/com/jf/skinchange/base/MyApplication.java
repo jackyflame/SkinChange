@@ -14,8 +14,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         RouterManager.getInstance().init(this);
-        RouterManager.getInstance().registRoute("/A/home", AHomeActivity.class);
-        RouterManager.getInstance().registRoute("/B/home", BHomeActivity.class);
+        //RouterManager.getInstance().registRoute("/A/home", AHomeActivity.class);
+        //RouterManager.getInstance().registRoute("/B/home", BHomeActivity.class);
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override

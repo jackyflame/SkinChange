@@ -2,6 +2,8 @@ package com.jf.router.api;
 
 import android.content.Context;
 
+import com.jf.commlib.log.LogW;
+
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +22,7 @@ public class ClassUtils {
             while (entries.hasMoreElements()){
                 String className = entries.nextElement();
                 if(className.contains(packgeName)){
+                    LogW.d("ClassUtils","DexFile find class:"+className);
                     set.add(className);
                 }
             }
