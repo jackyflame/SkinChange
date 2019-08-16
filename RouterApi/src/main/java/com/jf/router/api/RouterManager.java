@@ -34,7 +34,7 @@ public class RouterManager {
     public void init(Application application){
         this.mContext = application;
         //通过反射自动注册指定包实现了接口的类
-        Set<String> clazzSet =  ClassUtils.getClassesFromPackgeName(application,"com.jf.router.register");
+        Set<String> clazzSet =  ClassUtils.getClassesFromMultedex(application,"com.jf.router.register");
         try {
             Iterator<String> iterator = clazzSet.iterator();
             while (iterator.hasNext()){

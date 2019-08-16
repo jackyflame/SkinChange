@@ -20,7 +20,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.main.HomeActivity"
-            android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
