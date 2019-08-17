@@ -37,6 +37,7 @@ dependencies {
     implementation project(path: ':RouterApi')
     implementation project(path: ':commlib')
 
+    implementation project(path: ':RouterAnotation')
     annotationProcessor project(path: ':RouterCompiler')
 
 }

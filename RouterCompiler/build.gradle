@@ -2,8 +2,10 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.guava:guava:18.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'com.google.auto:auto-common:0.10'
     implementation project(path: ':RouterAnotation')
+    //implementation 'com.squareup:javapoet:1.7.0'
     //implementation "com.google.auto.service.auto-service:1.0-rc2"
 }
 

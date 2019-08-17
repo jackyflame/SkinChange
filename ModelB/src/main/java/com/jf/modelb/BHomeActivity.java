@@ -6,8 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.jf.router.annotation.Router;
 import com.jf.router.api.RouterManager;
-import com.jf.router.api.annotation.Router;
 
 @Router("/b/home")
 public class BHomeActivity extends AppCompatActivity {

@@ -1,6 +1,7 @@
 package com.jf.router.compiler;
 
 import com.google.auto.service.AutoService;
+import com.google.common.collect.ImmutableSet;
 
 import java.io.OutputStream;
 import java.util.Set;
@@ -11,27 +12,36 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
+import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
 //自动注册
 @AutoService(Processor.class)
+@SupportedSourceVersion(SourceVersion.RELEASE_7) //java
 //指定处理器处理的目标注解
-@SupportedAnnotationTypes("com.jf.router.api.annotation.Router")
+@SupportedAnnotationTypes("com.jf.router.annotation.Router")
 public class RouterProcessor extends AbstractProcessor {
 
-    private Filer filer;
-    private Messager messager;
+    private Filer filer;//文件相关的辅助类
+    private Messager messager;//日志相关的辅助类
+    public Elements elements; //元素相关的辅助类
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
         this.filer = processingEnvironment.getFiler();
         this.messager = processingEnvironment.getMessager();
+        this.elements = processingEnvironment.getElementUtils();
+        messager.printMessage(Diagnostic.Kind.NOTE,"-------------------RouterProcessor init ------------------------");
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+        messager.printMessage(Diagnostic.Kind.NOTE,"-------------------createSourceFile process------------------------");
         generateCode();
         return false;
     }
@@ -54,6 +64,7 @@ public class RouterProcessor extends AbstractProcessor {
                 "    }\n" ).append(
                 "}");
         try{
+            messager.printMessage(Diagnostic.Kind.NOTE,"-------------------createSourceFile------------------------");
             JavaFileObject fileObject = filer.createSourceFile("com.jf.router.register.Router_AHomeActivity");
             OutputStream outputStream = fileObject.openOutputStream();
             outputStream.write(sb.toString().getBytes());
