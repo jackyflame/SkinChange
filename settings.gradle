@@ -1,1 +1,1 @@
-include ':app', ':skiner', ':skinmanager', ':RouterCompiler', ':RouterApi', ':ModelA', ':ModelB', ':commlib'
+include ':app', ':skiner', ':skinmanager', ':RouterCompiler', ':RouterApi', ':ModelA', ':ModelB', ':commlib', ':RouterAnotation'

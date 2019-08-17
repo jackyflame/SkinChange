@@ -2,6 +2,9 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.guava:guava:18.0'
+    implementation project(path: ':RouterAnotation')
+    //implementation "com.google.auto.service.auto-service:1.0-rc2"
 }
 
 sourceCompatibility = "7"

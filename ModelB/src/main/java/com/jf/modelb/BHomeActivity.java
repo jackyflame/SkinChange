@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.jf.router.api.RouterManager;
+import com.jf.router.api.annotation.Router;
 
+@Router("/b/home")
 public class BHomeActivity extends AppCompatActivity {
 
     @Override
@@ -21,7 +23,7 @@ public class BHomeActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RouterManager.getInstance().jump("/A/home");
+                RouterManager.getInstance().jump("/a/home");
             }
         });
     }

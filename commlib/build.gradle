@@ -36,4 +36,6 @@ dependencies {
     api deps.suport.design
     // ViewModel 和 LiveData
     api deps.suport.lifecycle
+
+    api project(path: ':RouterAnotation')
 }
