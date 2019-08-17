@@ -44,7 +44,8 @@ public class RouterManager {
                 if(IRouterRegister.class.isAssignableFrom(clazz)){
                     Method method = clazz.getMethod("onRegist",RouterManager.class);
                     //LogW.d("RouterManager","getMethod:"+method);
-                    method.invoke(clazz.newInstance(),getInstance());
+                    //method.invoke(clazz.newInstance(),getInstance());
+                    ((IRouterRegister)clazz.newInstance()).onRegist(getInstance());
                     LogW.d("RouterManager","getClassesFromPackgeName item:"+clazzName + " invoke onRegist()");
                 }
             }
