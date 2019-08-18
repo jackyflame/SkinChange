@@ -2,6 +2,11 @@ package com.jf.router.compiler;
 
 import com.google.auto.service.AutoService;
 import com.jf.router.annotation.Router;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeSpec;
 
 import java.io.OutputStream;
 import java.util.Set;
@@ -17,6 +22,8 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
@@ -24,7 +31,8 @@ import javax.tools.JavaFileObject;
 
 //自动注册
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_7) //java
+//指定JDK版本
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
 //指定处理器处理的目标注解
 @SupportedAnnotationTypes("com.jf.router.annotation.Router")
 public class RouterProcessor extends AbstractProcessor {
@@ -44,7 +52,7 @@ public class RouterProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        messager.printMessage(Diagnostic.Kind.NOTE,"-------------------createSourceFile process------------------------");
+        messager.printMessage(Diagnostic.Kind.NOTE,"---- createSourceFile process >> ----");
         scanToCreateClass(roundEnvironment);
         return false;
     }
@@ -52,20 +60,56 @@ public class RouterProcessor extends AbstractProcessor {
     private void scanToCreateClass(RoundEnvironment roundEnvironment){
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Router.class);
         if(elements == null || elements.isEmpty()){
-            messager.printMessage(Diagnostic.Kind.ERROR,"scanToCreateClass failed cause Router annotation is empty!");
+            messager.printMessage(Diagnostic.Kind.WARNING,"scanToCreateClass failed cause Router annotation is empty!");
             return;
         }
         elements.forEach(new Consumer<Element>() {
             @Override
             public void accept(Element element) {
-                generateClass(element);
+                if(element instanceof TypeElement){
+                    generateClass((TypeElement) element);
+                }else{
+                    messager.printMessage(Diagnostic.Kind.WARNING,"Element forEach is not TypeElement:"+element.getSimpleName());
+                }
             }
         });
     }
 
-    private void generateClass(Element element){
+    private void generateClass(TypeElement element){
+        //get the package info
+        PackageElement packageElement = (PackageElement) element.getEnclosingElement();
+        String routerValue = element.getAnnotation(Router.class).value();
+        //messager.printMessage(Diagnostic.Kind.NOTE,"element getAnnotation value:"+element.getAnnotation(Router.class).value());
+        //get the class by full rout info
+        ClassName elementActivity = ClassName.get(packageElement.getQualifiedName().toString(),element.getSimpleName().toString());
+        //override annotation declare
+        ClassName override = ClassName.get("java.lang", "Override");
+        //build the interface
+        ClassName iRouterRegister = ClassName.get("com.jf.router.api.interfaces","IRouterRegister");
+        //setting the target class
+        TypeSpec.Builder routerAuto = TypeSpec.classBuilder("Router2_"+element.getSimpleName())
+                .addModifiers(Modifier.PUBLIC)
+                .addSuperinterface(iRouterRegister);
+        //combine the target class member method
+        ClassName onRegistParamType = ClassName.get("com.jf.router.api","RouterManager");
+        ParameterSpec registParam = ParameterSpec.builder(onRegistParamType,"manager").build();
+        MethodSpec onRegistMehtod = MethodSpec.methodBuilder("onRegist")
+                .addParameter(registParam)
+                .addAnnotation(override)
+                .addModifiers(Modifier.PUBLIC)
+                .addCode("if(manager != null){\n")
+                .addCode("      manager.registRoute($S, $T.class);\n",routerValue,elementActivity)
+                .addCode("}")
+                .build();
 
-
+        routerAuto.addMethod(onRegistMehtod);
+        JavaFile javaFile = JavaFile.builder("com.jf.router.register",routerAuto.build()).build();
+        try{
+            javaFile.writeTo(filer);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        messager.printMessage(Diagnostic.Kind.NOTE,"generateClass "+element.getSimpleName()+" with rout "+ routerValue);
     }
 
     private void generateCode(){

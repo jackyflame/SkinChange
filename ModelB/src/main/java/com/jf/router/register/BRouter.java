@@ -9,7 +9,7 @@ public class BRouter implements IRouterRegister {
     @Override
     public void onRegist(RouterManager manager) {
         if(manager != null){
-            manager.registRoute("/B/home", BHomeActivity.class);
+            manager.registRoute("/BX/home", BHomeActivity.class);
         }
     }
 }
