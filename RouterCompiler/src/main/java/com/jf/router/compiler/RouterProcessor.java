@@ -1,10 +1,12 @@
 package com.jf.router.compiler;
 
 import com.google.auto.service.AutoService;
-import com.google.common.collect.ImmutableSet;
+import com.jf.router.annotation.Router;
 
 import java.io.OutputStream;
 import java.util.Set;
+import java.util.function.Consumer;
+
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
@@ -14,6 +16,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
@@ -42,8 +45,27 @@ public class RouterProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         messager.printMessage(Diagnostic.Kind.NOTE,"-------------------createSourceFile process------------------------");
-        generateCode();
+        scanToCreateClass(roundEnvironment);
         return false;
+    }
+
+    private void scanToCreateClass(RoundEnvironment roundEnvironment){
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Router.class);
+        if(elements == null || elements.isEmpty()){
+            messager.printMessage(Diagnostic.Kind.ERROR,"scanToCreateClass failed cause Router annotation is empty!");
+            return;
+        }
+        elements.forEach(new Consumer<Element>() {
+            @Override
+            public void accept(Element element) {
+                generateClass(element);
+            }
+        });
+    }
+
+    private void generateClass(Element element){
+
+
     }
 
     private void generateCode(){
