@@ -97,9 +97,9 @@ public class RouterProcessor extends AbstractProcessor {
                 .addParameter(registParam)
                 .addAnnotation(override)
                 .addModifiers(Modifier.PUBLIC)
-                .addCode("if(manager != null){\n")
-                .addCode("      manager.registRoute($S, $T.class);\n",routerValue,elementActivity)
-                .addCode("}")
+                .beginControlFlow("if(manager != null)")
+                .addCode("manager.registRoute($S, $T.class);\n",routerValue,elementActivity)
+                .endControlFlow()
                 .build();
 
         routerAuto.addMethod(onRegistMehtod);
