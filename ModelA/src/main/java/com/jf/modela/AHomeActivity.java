@@ -28,4 +28,9 @@ public class AHomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Router("/a/home/inner")
+    public class AInnerActivity{
+
+    }
 }

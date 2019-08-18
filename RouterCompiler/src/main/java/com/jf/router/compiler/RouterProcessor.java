@@ -23,9 +23,10 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.QualifiedNameable;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
@@ -39,7 +40,8 @@ public class RouterProcessor extends AbstractProcessor {
 
     private Filer filer;//文件相关的辅助类
     private Messager messager;//日志相关的辅助类
-    public Elements elements; //元素相关的辅助类
+    private Elements elements; //元素相关的辅助类
+    private Types types;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -47,6 +49,7 @@ public class RouterProcessor extends AbstractProcessor {
         this.filer = processingEnvironment.getFiler();
         this.messager = processingEnvironment.getMessager();
         this.elements = processingEnvironment.getElementUtils();
+        this.types = processingEnvironment.getTypeUtils();
         messager.printMessage(Diagnostic.Kind.NOTE,"-------------------RouterProcessor init ------------------------");
     }
 
@@ -77,11 +80,18 @@ public class RouterProcessor extends AbstractProcessor {
 
     private void generateClass(TypeElement element){
         //get the package info
-        PackageElement packageElement = (PackageElement) element.getEnclosingElement();
+        QualifiedNameable qualifiedElement = (QualifiedNameable) element.getEnclosingElement();
+        //PackageElement packageElement;
+        //if(innerElment instanceof TypeElement){
+        //    packageElement = (PackageElement) innerElment.getEnclosingElement();
+        //}else{
+        //    packageElement = (PackageElement) innerElment;
+        //}
+        messager.printMessage(Diagnostic.Kind.NOTE,"full-path:"+element.getQualifiedName());
         String routerValue = element.getAnnotation(Router.class).value();
         //messager.printMessage(Diagnostic.Kind.NOTE,"element getAnnotation value:"+element.getAnnotation(Router.class).value());
         //get the class by full rout info
-        ClassName elementActivity = ClassName.get(packageElement.getQualifiedName().toString(),element.getSimpleName().toString());
+        ClassName elementActivity = ClassName.get(qualifiedElement.getQualifiedName().toString(),element.getSimpleName().toString());
         //override annotation declare
         ClassName override = ClassName.get("java.lang", "Override");
         //build the interface
