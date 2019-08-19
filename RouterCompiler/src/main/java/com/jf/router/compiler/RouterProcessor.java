@@ -79,6 +79,13 @@ public class RouterProcessor extends AbstractProcessor {
     }
 
     private void generateClass(TypeElement element){
+        //如果不是Activity子类，则跳过
+        //TypeElement declaredType = elements.getTypeElement("android.support.v7.app.AppCompatActivity");
+        TypeElement declaredType = elements.getTypeElement("android.app.Activity");
+        if(!types.isSubtype(element.asType(),declaredType.asType())){
+            messager.printMessage(Diagnostic.Kind.NOTE,"generateClass jump: "+element.getSimpleName() + " is not extends from Activity");
+            return;
+        }
         //get the package info
         QualifiedNameable qualifiedElement = (QualifiedNameable) element.getEnclosingElement();
         //PackageElement packageElement;
