@@ -12,8 +12,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
-public class SkinViewFactory implements LayoutInflater.Factory2 {
+public class SkinViewFactory implements LayoutInflater.Factory2, Observer {
 
     private final Object[] mConstructorArgs = new Object[2];
     private Context mContext;
@@ -166,5 +168,12 @@ public class SkinViewFactory implements LayoutInflater.Factory2 {
     private void failNotAllowed(String name, String prefix, AttributeSet attrs) {
         throw new InflateException(attrs.getPositionDescription()
                 + ": Class not allowed to be inflated "+ (prefix != null ? (prefix + name) : name));
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(skinAttribute != null){
+             skinAttribute.applySkin();
+        }
     }
 }

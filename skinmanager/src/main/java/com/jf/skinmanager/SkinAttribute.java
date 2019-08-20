@@ -36,6 +36,12 @@ public class SkinAttribute {
         skinAttrViewList.add(skinAttrView);
     }
 
+    public void applySkin(){
+        for (SkinAttrView view:skinAttrViewList) {
+            view.applySkin();
+        }
+    }
+
     class SkinAttrView{
 
         View view = null;
@@ -47,6 +53,15 @@ public class SkinAttribute {
 
         public void addAttr(String name,int value){
             this.attrList.add(new SkinAttr(name,value));
+        }
+
+        public void applySkin(){
+            if(view == null){
+                return;
+            }
+            for (SkinAttr attr:attrList) {
+                //view.setBackground();
+            }
         }
     }
 

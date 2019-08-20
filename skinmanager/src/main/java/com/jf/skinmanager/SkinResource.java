@@ -27,9 +27,16 @@ public class SkinResource {
         this.appRes = mContext.getResources();
     }
 
+    public void reset() {
+        this.skinRes = null;
+        this.skinPackName = "";
+        this.isDefaultSkin = true;
+    }
+
     public void applySkin(Resources skinRes,String packName){
         this.skinRes = skinRes;
         this.skinPackName = packName;
+        this.isDefaultSkin = false;
     }
 
     public int getSkinIdentify(int resId){
