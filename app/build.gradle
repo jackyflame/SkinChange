@@ -76,6 +76,7 @@ dependencies {
     implementation project(path: ':ModelB')
     implementation project(path: ':RouterApi')
     implementation project(path: ':commlib')
+    implementation project(path: ':skinmanager')
 
 //    // 仅用 ViewModel
 //    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"

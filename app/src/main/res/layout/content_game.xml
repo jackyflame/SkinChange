@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:onClick="@{viewModel.onTextClick}"
-        android:text="@={viewModel.nameFromat2}"/>
+        android:text="@{viewModel.nameFromat2}"/>
 
 </android.support.constraint.ConstraintLayout>
 </layout>

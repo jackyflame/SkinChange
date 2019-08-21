@@ -20,7 +20,7 @@ public class SkinManager extends Observable {
 
     private SkinManager(){}
 
-    private SkinManager getInstantce(){
+    public static SkinManager getInstantce(){
         return SingleHolder.instance;
     }
 

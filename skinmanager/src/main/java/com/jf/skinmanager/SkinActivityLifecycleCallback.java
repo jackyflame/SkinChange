@@ -9,7 +9,9 @@ public class SkinActivityLifecycleCallback implements Application.ActivityLifecy
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        LayoutInflater.from(activity).setFactory2(new SkinViewFactory());
+        SkinViewFactory factory = new SkinViewFactory();
+        SkinManager.getInstantce().addObserver(factory);
+        LayoutInflater.from(activity).setFactory2(factory);
     }
 
     @Override
