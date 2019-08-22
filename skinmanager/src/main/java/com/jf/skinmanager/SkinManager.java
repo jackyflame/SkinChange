@@ -12,7 +12,7 @@ import java.util.Observable;
 public class SkinManager extends Observable {
 
     private static Application mContext;
-    private static SkinActivityLifecycleCallback skinCallback = new SkinActivityLifecycleCallback();
+    private static SkinActivityLifecycleCallback skinCallback;
 
     private static class SingleHolder{
         private final static SkinManager instance = new SkinManager();
@@ -24,10 +24,11 @@ public class SkinManager extends Observable {
         return SingleHolder.instance;
     }
 
-    public static void init(Application context){
-        mContext = context;
-        SkinResource.getInstance().init(context);
-        mContext.registerActivityLifecycleCallbacks(skinCallback);
+    public static void init(Application application){
+        mContext = application;
+        SkinResource.getInstance().init(application);
+        skinCallback = new SkinActivityLifecycleCallback();
+        application.registerActivityLifecycleCallbacks(skinCallback);
     }
 
     public void loadSkin(String skinPath){

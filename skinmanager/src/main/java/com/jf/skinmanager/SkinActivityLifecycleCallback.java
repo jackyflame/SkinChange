@@ -5,13 +5,26 @@ import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import java.lang.reflect.Field;
+
 public class SkinActivityLifecycleCallback implements Application.ActivityLifecycleCallbacks {
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        SkinViewFactory factory = new SkinViewFactory();
-        SkinManager.getInstantce().addObserver(factory);
-        LayoutInflater.from(activity).setFactory2(factory);
+
+        try {
+            LayoutInflater layoutInflater = activity.getLayoutInflater();
+            Field field = LayoutInflater.class.getDeclaredField("mFactorySet");
+            field.setAccessible(true);
+            field.setBoolean(layoutInflater,true);
+            SkinViewFactory factory = new SkinViewFactory();
+            layoutInflater.setFactory2(factory);
+            SkinManager.getInstantce().addObserver(factory);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
