@@ -50,7 +50,7 @@ public class RouterProcessor extends AbstractProcessor {
         this.messager = processingEnvironment.getMessager();
         this.elements = processingEnvironment.getElementUtils();
         this.types = processingEnvironment.getTypeUtils();
-        messager.printMessage(Diagnostic.Kind.NOTE,"-------------------RouterProcessor init ------------------------");
+        messager.printMessage(Diagnostic.Kind.NOTE,"-------------------RouterPrDexFile find classocessor init ------------------------");
     }
 
     @Override

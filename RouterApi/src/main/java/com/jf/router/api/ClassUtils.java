@@ -90,7 +90,7 @@ public class ClassUtils {
             Enumeration<String> entries = childDexFile.entries();
             while (entries.hasMoreElements()){
                 String className = entries.nextElement();
-                LogW.d("ClassUtils","DexFile find class:"+className);
+                //LogW.d("ClassUtils","DexFile find class:"+className);
                 if(className.contains(packgeName)){
                     //LogW.d("ClassUtils","DexFile find class:"+className);
                     set.add(className);

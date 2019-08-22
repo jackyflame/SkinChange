@@ -73,7 +73,7 @@ public class SkinViewFactory implements LayoutInflater.Factory2, Observer {
         try {
             if (constructor == null) {
                 // Class not found in the cache, see if it's real, and try to add it
-                clazz = mContext.getClassLoader().loadClass(finalPrefix) .asSubclass(View.class);
+                clazz = mContext.getClassLoader().loadClass(finalPrefix).asSubclass(View.class);
                 if (mFilter != null && clazz != null) {
                     boolean allowed = mFilter.onLoadClass(clazz);
                     if (!allowed) {

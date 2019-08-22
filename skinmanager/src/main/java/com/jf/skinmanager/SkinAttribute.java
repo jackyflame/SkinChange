@@ -1,7 +1,10 @@
 package com.jf.skinmanager;
 
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.jf.commlib.log.LogW;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,11 +29,26 @@ public class SkinAttribute {
     public void lookView(View view, AttributeSet attrs){
         SkinAttrView skinAttrView = new SkinAttrView(view);
         for(int i=0;i<attrs.getAttributeCount();i++){
-            if(mAttrsFilter.contains(attrs.getAttributeName(i))){
-                int value = attrs.getAttributeIntValue(i,-404);
-                if(value != -404){
-                    skinAttrView.addAttr(attrs.getAttributeName(i),value);
+            String attrName = attrs.getAttributeName(i);
+            if(mAttrsFilter.contains(attrName)){
+                String value = attrs.getAttributeValue(i);
+                //颜色以#开头，写死的，不能替换
+                if(value.startsWith("#")){
+                    continue;
                 }
+                int resId = -1;
+                //？开头的表示使用属性
+                if(value.startsWith("?")){
+                    int attrId = Integer.parseInt(value.substring(1));
+                    TypedArray set = view.getContext().obtainStyledAttributes(new int[]{attrId});
+                    set.getResourceId(attrId,-1);
+                    //resId = SkinThemeUtils.getResId(view.getContext(),new int[]{attrId})[0];
+                }else{
+                    //正常以@开头的
+                    resId = Integer.parseInt(value.substring(1));
+                }
+                LogW.d("SkinAttribute"," attName:"+attrName+" = " + value);
+                skinAttrView.addAttr(attrName,resId);
             }
         }
         skinAttrViewList.add(skinAttrView);

@@ -16,7 +16,7 @@ public class SkinActivityLifecycleCallback implements Application.ActivityLifecy
             LayoutInflater layoutInflater = activity.getLayoutInflater();
             Field field = LayoutInflater.class.getDeclaredField("mFactorySet");
             field.setAccessible(true);
-            field.setBoolean(layoutInflater,true);
+            field.setBoolean(layoutInflater,false);
             SkinViewFactory factory = new SkinViewFactory();
             layoutInflater.setFactory2(factory);
             SkinManager.getInstantce().addObserver(factory);
