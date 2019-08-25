@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 
+import com.jf.commlib.log.LogW;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -27,15 +29,21 @@ public class SkinViewFactory implements LayoutInflater.Factory2, Observer {
 
     private SkinAttribute skinAttribute = new SkinAttribute();
 
+    private static final String[] sClassPrefixList = {
+            "android.widget.",
+            "android.webkit.",
+            "android.app."
+    };
+
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+        LogW.d("onCreateView",name);
         return onCreateView(name,context,attrs);
     }
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         this.mContext = context;
-
         mFilter = LayoutInflater.from(context).getFilter();
         if (mFilter != null) {
             mFilterMap = new HashMap<>();
@@ -59,6 +67,17 @@ public class SkinViewFactory implements LayoutInflater.Factory2, Observer {
     }
 
     private View createSdkView(String name, AttributeSet attrs) throws ClassNotFoundException {
+        for (String prefix : sClassPrefixList) {
+            try {
+                View view = createView(name, prefix, attrs);
+                if (view != null) {
+                    return view;
+                }
+            } catch (ClassNotFoundException e) {
+                // In this case we want to let the base class take a crack
+                // at it.
+            }
+        }
         return createView(name,"android.view.", attrs);
     }
 

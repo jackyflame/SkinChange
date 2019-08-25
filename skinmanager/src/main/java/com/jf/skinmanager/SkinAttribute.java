@@ -41,7 +41,7 @@ public class SkinAttribute {
                 if(value.startsWith("?")){
                     int attrId = Integer.parseInt(value.substring(1));
                     TypedArray set = view.getContext().obtainStyledAttributes(new int[]{attrId});
-                    set.getResourceId(attrId,-1);
+                    set.getResourceId(0,-1);
                     //resId = SkinThemeUtils.getResId(view.getContext(),new int[]{attrId})[0];
                 }else{
                     //正常以@开头的

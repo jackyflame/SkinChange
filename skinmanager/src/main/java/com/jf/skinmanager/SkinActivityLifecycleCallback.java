@@ -5,6 +5,8 @@ import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import com.jf.commlib.log.LogW;
+
 import java.lang.reflect.Field;
 
 public class SkinActivityLifecycleCallback implements Application.ActivityLifecycleCallbacks {
@@ -14,6 +16,7 @@ public class SkinActivityLifecycleCallback implements Application.ActivityLifecy
 
         try {
             LayoutInflater layoutInflater = activity.getLayoutInflater();
+            LogW.d("onActivityCreated","LayoutInflater for real:" + layoutInflater);
             Field field = LayoutInflater.class.getDeclaredField("mFactorySet");
             field.setAccessible(true);
             field.setBoolean(layoutInflater,false);
