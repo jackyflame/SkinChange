@@ -1,7 +1,10 @@
 package com.jf.skinmanager;
 
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,10 +38,7 @@ public class SkinAttribute {
             return;
         }
         Resources res = view.getContext().getResources();
-        //LogW.d("lookView","view:" + view.getId());
-
         SkinAttrView skinAttrView = new SkinAttrView(view);
-
         //TypedArray typedArray = view.getContext().obtainStyledAttributes(attrs);
         //TypedArray arr = view.getContext().obtainStyledAttributes(com.android.internal.R.styleable.View);
         //final TypedArray a = view.getContext().obtainStyledAttributes(
@@ -56,17 +56,17 @@ public class SkinAttribute {
                 //？开头的表示使用属性
                 if(value.startsWith("?")){
                     resId = Integer.parseInt(value.substring(1));
-                    //String resourceName;
-                    //try {
-                    //    resourceName = res.getResourceName(attrId);
-                    //} catch (Resources.NotFoundException e) {
-                    //    resourceName = "0x" + Integer.toHexString(resId);
-                    //}
-                    //TypedArray a = view.getContext().obtainStyledAttributes(attrs,R.styleable.View);
-                    //int realId = a.getResourceId(a.getIndex(0),-1);
-                    //LogW.d("lookView","value:" + value + " resourceName=>"+resourceName + " realId:"+realId);
-                    //a.recycle();
-                    //resId = SkinThemeUtils.getResId(view.getContext(),new int[]{attrId})[0];
+//                    String resourceName;
+//                    try {
+//                        resourceName = res.getResourceEntryName(resId);
+//                    } catch (Resources.NotFoundException e) {
+//                        resourceName = "0x" + Integer.toHexString(resId);
+//                    }
+//                    TypedArray a = view.getContext().obtainStyledAttributes(resId,R.styleable.View);
+//                    //int realId = a.getResourceId(a.getIndex(0),-1);
+//                    LogW.d("lookView","value:" + value + " resourceName=>" + resourceName + " resType:"+a);
+//                    //a.recycle();
+//                    //resId = SkinThemeUtils.getResId(view.getContext(),new int[]{attrId})[0];
                 }else{
                     //正常以@开头的
                     resId = Integer.parseInt(value.substring(1));
@@ -79,7 +79,6 @@ public class SkinAttribute {
     }
 
     public void applySkin(){
-        LogW.d("----------applySkin-------------");
         for (SkinAttrView view:skinAttrViewList) {
             view.applySkin();
         }
@@ -100,55 +99,78 @@ public class SkinAttribute {
 
         public void applySkin(){
             if(view == null){
+                LogW.e("applySkin","error: view is null");
                 return;
             }
             for (SkinAttr attr:attrList) {
-                if("background".equals(attr.name)){
-                    view.setBackgroundResource(SkinResource.getInstance().getSkinIdentify(attr.value));
-                }else if("textColor".equals(attr.name)){
-                    if(view instanceof TextView){
-                        ((TextView) view).setTextColor(SkinResource.getInstance().getColor(attr.value));
-                    }
-                }else if("src".equals(attr.name)){
-                    if(view instanceof ImageView){
-                        ((ImageView) view).setImageResource(attr.value);
-                    }
-                }else if("drawableTop".equals(attr.name)){
-                    if(view instanceof TextView){
-                        Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
-                        if(drawable != null){
-                            ((TextView) view).setCompoundDrawables(null,drawable,null, null);
-                        }else{
-                            LogW.e("error: drawableTop is null");
+                switch (attr.name){
+                    case "background":
+//                        Object background = SkinResource.getInstance().getBackground(attr.value);
+//                    if(background instanceof Drawable){
+//                        view.setBackground((Drawable) background);
+//                        LogW.d("applySkin","setBackground: from " + attr.value+" to "+ background);
+//                    }else{
+//                        view.setBackgroundColor((Integer) background);
+//                        LogW.d("applySkin","setBackgroundColor: from " + attr.value+" to "+ background);
+//                    }
+                        break;
+                    case "textColor":
+                        if(view instanceof TextView){
+                            ColorStateList newColor = SkinResource.getInstance().getColorStateList(attr.value);
+                            ((TextView) view).setTextColor(newColor);
+                            LogW.d("applySkin","textColor: from "+Integer.toHexString(attr.value)+" to "+ newColor);
                         }
-                    }
-                }else if("drawableBottom".equals(attr.name)){
-                    if(view instanceof TextView){
-                        Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
-                        if(drawable != null){
-                            ((TextView) view).setCompoundDrawables(null,null,null, drawable);
-                        }else{
-                            LogW.e("error: drawableBottom is null");
+                        break;
+                    case "src":
+                        if(view instanceof ImageView){
+                            ((ImageView) view).setImageResource(SkinResource.getInstance().getSkinIdentify(attr.value));
+                            LogW.d("applySkin","setImageResource: "+ SkinResource.getInstance().getSkinIdentify(attr.value));
                         }
-                    }
-                }else if("drawableLeft".equals(attr.name)){
-                    if(view instanceof TextView){
-                        Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
-                        if(drawable != null){
-                            ((TextView) view).setCompoundDrawables(drawable,null,null, null);
-                        }else{
-                            LogW.e("error: drawableLeft is null");
+                        break;
+                    case "drawableTop":
+                        if(view instanceof TextView){
+                            Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
+                            if(drawable != null){
+                                ((TextView) view).setCompoundDrawables(null,drawable,null, null);
+                                LogW.d("applySkin","drawableTop: "+ SkinResource.getInstance().getDrawable(attr.value));
+                            }else{
+                                LogW.e("error: drawableTop is null");
+                            }
                         }
-                    }
-                }else if("drawableRight".equals(attr.name)){
-                    if(view instanceof TextView){
-                        Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
-                        if(drawable != null){
-                            ((TextView) view).setCompoundDrawables(null,null,drawable, null);
-                        }else{
-                            LogW.e("error: drawableRight is null");
+                        break;
+                    case "drawableBottom":
+                        if(view instanceof TextView){
+                            Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
+                            if(drawable != null){
+                                ((TextView) view).setCompoundDrawables(null,null,null, drawable);
+                                LogW.d("applySkin","drawableBottom: "+ SkinResource.getInstance().getDrawable(attr.value));
+                            }else{
+                                LogW.e("error: drawableBottom is null");
+                            }
                         }
-                    }
+                        break;
+                    case "drawableLeft":
+                        if(view instanceof TextView){
+                            Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
+                            if(drawable != null){
+                                ((TextView) view).setCompoundDrawables(drawable,null,null, null);
+                                LogW.d("applySkin","drawableLeft: "+ SkinResource.getInstance().getDrawable(attr.value));
+                            }else{
+                                LogW.e("error: drawableLeft is null");
+                            }
+                        }
+                        break;
+                    case "drawableRight":
+                        if(view instanceof TextView){
+                            Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
+                            if(drawable != null){
+                                ((TextView) view).setCompoundDrawables(null,null,drawable, null);
+                                LogW.d("applySkin","drawableRight: "+ SkinResource.getInstance().getDrawable(attr.value));
+                            }else{
+                                LogW.e("error: drawableRight is null");
+                            }
+                        }
+                        break;
                 }
             }
         }

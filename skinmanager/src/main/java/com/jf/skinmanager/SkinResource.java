@@ -1,8 +1,11 @@
 package com.jf.skinmanager;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+
+import com.jf.commlib.log.LogW;
 
 public class SkinResource {
 
@@ -40,9 +43,13 @@ public class SkinResource {
     }
 
     public int getSkinIdentify(int resId){
-        String resName = appRes.getResourceName(resId);
+        String resEntryName = appRes.getResourceEntryName(resId);
+        //String resName = appRes.getResourceName(resId);
         String typeName = appRes.getResourceTypeName(resId);
-        return skinRes.getIdentifier(resName,typeName,skinPackName);
+        int skinId = skinRes.getIdentifier(resEntryName,typeName,skinPackName);
+        LogW.d("getSkinIdentify","resEntryName:"+resEntryName + " typeName:"+typeName + " skinPackName:"+skinPackName
+                + " from "+Integer.toHexString(resId) + " to "+ Integer.toHexString(skinId));
+        return skinId;
     }
 
     public int getColor(int resId){
@@ -56,8 +63,20 @@ public class SkinResource {
         return skinRes.getColor(skinId);
     }
 
+    public ColorStateList getColorStateList(int resId){
+        if(isDefaultSkin){
+            return appRes.getColorStateList(resId);
+        }
+        int skinId = getSkinIdentify(resId);
+        if(skinId == 0){
+            return appRes.getColorStateList(resId);
+        }
+        return skinRes.getColorStateList(skinId);
+    }
+
     public Object getBackground(int resId){
         String resourceTypeName = appRes.getResourceTypeName(resId);
+        LogW.d("getBackground","resourceTypeName:"+resourceTypeName );
         if("color".endsWith(resourceTypeName)){
             return getColor(resId);
         }else{
