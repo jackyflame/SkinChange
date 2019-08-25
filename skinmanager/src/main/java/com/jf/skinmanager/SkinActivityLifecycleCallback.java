@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import com.jf.commlib.log.LogW;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SkinActivityLifecycleCallback implements Application.ActivityLifecycleCallbacks {
 
+    private Map<String,SkinViewFactory> factoryMap = new HashMap<>();
+
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
         try {
             LayoutInflater layoutInflater = activity.getLayoutInflater();
             LogW.d("onActivityCreated","LayoutInflater for real:" + layoutInflater);
@@ -23,6 +26,8 @@ public class SkinActivityLifecycleCallback implements Application.ActivityLifecy
             SkinViewFactory factory = new SkinViewFactory();
             layoutInflater.setFactory2(factory);
             SkinManager.getInstantce().addObserver(factory);
+            factoryMap.put(activity.toString(),factory);
+            LogW.d("onActivityCreated","SkinManager add key>"+activity.toString() + " factory>" + factory);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -57,6 +62,10 @@ public class SkinActivityLifecycleCallback implements Application.ActivityLifecy
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-
+        if(factoryMap.containsKey(activity.toString())){
+            SkinViewFactory factory = factoryMap.get(activity.toString());
+            SkinManager.getInstantce().deleteObserver(factory);
+            LogW.d("onActivityCreated","SkinManager remove key>"+activity.toString() + " factory>" + factory);
+        }
     }
 }

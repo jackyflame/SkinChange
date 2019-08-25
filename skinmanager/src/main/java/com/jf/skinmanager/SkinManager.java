@@ -6,8 +6,12 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 
+import com.jf.commlib.log.LogW;
+
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Observable;
+import java.util.Observer;
 
 public class SkinManager extends Observable {
 
@@ -26,6 +30,7 @@ public class SkinManager extends Observable {
 
     public static void init(Application application){
         mContext = application;
+        SkinPrefrence.init(application);
         SkinResource.getInstance().init(application);
         skinCallback = new SkinActivityLifecycleCallback();
         application.registerActivityLifecycleCallbacks(skinCallback);
@@ -36,6 +41,12 @@ public class SkinManager extends Observable {
             if(skinPath == null || skinPath.isEmpty()){
                 SkinResource.getInstance().reset();
                 SkinPrefrence.getInstance().reset();
+                LogW.e("loadSkin","error: skinPath is empty!");
+                return;
+            }
+            File file = new File(skinPath);
+            if(!file.exists()){
+                LogW.e("loadSkin","error: file is not exists!");
                 return;
             }
             Resources appRes = mContext.getResources();
@@ -46,7 +57,7 @@ public class SkinManager extends Observable {
             PackageManager packageManager = mContext.getPackageManager();
             PackageInfo skinPackageInfo = packageManager.getPackageArchiveInfo(skinPath,PackageManager.GET_ACTIVITIES);
             String packageName = skinPackageInfo.packageName;
-
+            LogW.e("loadSkin","packageName :"+packageName);
             SkinResource.getInstance().applySkin(skinRes,packageName);
             SkinPrefrence.getInstance().setSkin(skinPath);
 
@@ -57,4 +68,8 @@ public class SkinManager extends Observable {
         }
     }
 
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+    }
 }

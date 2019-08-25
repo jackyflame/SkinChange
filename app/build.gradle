@@ -13,8 +13,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs{
-        release{
+    signingConfigs {
+        release {
             storeFile file("../skin.jks")
             storePassword "666666"
             keyAlias "skin"
@@ -28,7 +28,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-        debug{
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -36,27 +36,27 @@ android {
 
     flavorDimensions 'blue'
 
-    productFlavors{
-        SKIN_ALL{
+    productFlavors {
+        SKIN_ALL {
             "applicationId" "com.jf.skinfull"
             "versionName" "1.0.a"
-            manifestPlaceholders = [APP_NAME:"Skiner 完全版"]
-            buildConfigField("String","HOST","\"http://www.jf.skinall\"")
-            buildConfigField("boolean","isTest","false")
+            manifestPlaceholders = [APP_NAME: "Skiner 完全版"]
+            buildConfigField("String", "HOST", "\"http://www.jf.skinall\"")
+            buildConfigField("boolean", "isTest", "false")
         }
 
-        SKIN_MODULE{
+        SKIN_MODULE {
             "applicationId" "com.jf.skinmodule"
             "versionName" "1.0.m"
-            manifestPlaceholders = [APP_NAME:"Skiner 分离版"]
-            buildConfigField("String","HOST","\"http://www.jf.skinmodule\"")
-            buildConfigField("boolean","isTest","true")
+            manifestPlaceholders = [APP_NAME: "Skiner 分离版"]
+            buildConfigField("String", "HOST", "\"http://www.jf.skinmodule\"")
+            buildConfigField("boolean", "isTest", "true")
         }
     }
 
     //自定义输出配置
-    android.applicationVariants.all {variant->
-        variant.outputs.all{
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
             outputFileName = "APP_${versions.versionName}[${versions.versionCode}].apk"
         }
     }
@@ -69,6 +69,9 @@ android {
 dependencies {
     def deps = rootProject.ext.deps
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -77,6 +80,8 @@ dependencies {
     implementation project(path: ':RouterApi')
     implementation project(path: ':commlib')
     implementation project(path: ':skinmanager')
+
+    annotationProcessor "android.arch.lifecycle:compiler:$depVersion.lifecycle_version"
 
 //    // 仅用 ViewModel
 //    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"

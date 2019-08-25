@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +13,9 @@ import android.view.View;
 import com.jf.commlib.log.LogW;
 import com.jf.skinmanager.SkinManager;
 
-public class GameViewModel extends ViewModel {
+public class Game2ViewModel extends ViewModel {
 
+    private Game2Activity activity;
     public MutableLiveData<String> name = new MutableLiveData<>();
     public LiveData<String> nameFromat = Transformations.map(name, new Function<String, String>() {
         @Override
@@ -32,15 +34,15 @@ public class GameViewModel extends ViewModel {
 
     private int clickCount = 0;
 
-    public GameViewModel() {
+    public Game2ViewModel() {
         Log.d("ViewModel","GameViewModel create!!!");
     }
 
-//    public void setName(String name) {
-//        this.name.setValue(name);
-//    }
-//
-//    public MutableLiveData<String> getRemark() {
+    public String getTitle(){
+        return "test!!!";
+    }
+
+    //    public MutableLiveData<String> getRemark() {
 //        return remark;
 //    }
 //
@@ -53,13 +55,11 @@ public class GameViewModel extends ViewModel {
     }
 
     public void onBtnClick(View view){
-        LogW.d("=========>>>> 换肤");
-        //Toast.makeText(mActivity,"换肤！！！",Toast.LENGTH_LONG).show();
-        String pathName = Environment.getExternalStoragePublicDirectory("") + "/SkinManager/skiner.sk";
-        SkinManager.getInstantce().loadSkin(pathName);
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//        intent.setType("*/*");//无类型限制
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        mActivity.startActivityForResult(intent, 1);
+        LogW.d("=========>>>> 跳转");
+        activity.startActivity(new Intent(activity,GameActivity.class));
+    }
+
+    public void setActivity(Game2Activity game2Activity) {
+        this.activity = game2Activity;
     }
 }
