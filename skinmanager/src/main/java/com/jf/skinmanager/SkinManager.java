@@ -34,6 +34,10 @@ public class SkinManager extends Observable {
         SkinResource.getInstance().init(application);
         skinCallback = new SkinActivityLifecycleCallback();
         application.registerActivityLifecycleCallbacks(skinCallback);
+        if(!SkinResource.getInstance().isDefaultSkin()){
+            SkinManager.getInstantce().loadSkin(SkinPrefrence.getInstance().getSkin());
+        }
+        LogW.e("SkinManager","---------init success---------");
     }
 
     public void loadSkin(String skinPath){

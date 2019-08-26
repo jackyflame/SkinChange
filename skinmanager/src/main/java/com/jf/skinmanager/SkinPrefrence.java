@@ -25,6 +25,10 @@ public class SkinPrefrence {
         mSp.edit().putString("SKIN_PATH",skinPath).apply();
     }
 
+    public String getSkin() {
+        return mSp.getString("SKIN_PATH","");
+    }
+
     public void reset() {
         mSp.edit().remove("SKIN_PATH").apply();
     }

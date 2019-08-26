@@ -1,10 +1,7 @@
 package com.jf.skinmanager;
 
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -38,13 +35,7 @@ public class SkinAttribute {
             LogW.e("lookView","error: view is null!!!");
             return;
         }
-        Resources res = view.getContext().getResources();
         SkinAttrView skinAttrView = new SkinAttrView(view);
-        //TypedArray typedArray = view.getContext().obtainStyledAttributes(attrs);
-        //TypedArray arr = view.getContext().obtainStyledAttributes(com.android.internal.R.styleable.View);
-        //final TypedArray a = view.getContext().obtainStyledAttributes(
-        //        attrs, com.android.internal.R.styleable.View, 0, 0);
-
         for(int i=0;i<attrs.getAttributeCount();i++){
             String attrName = attrs.getAttributeName(i);
             if(mAttrsFilter.contains(attrName)){
@@ -57,19 +48,8 @@ public class SkinAttribute {
                 //？开头的表示使用属性
                 if(value.startsWith("?")){
                     resId = Integer.parseInt(value.substring(1));
-                    String resourceName;
-                    try {
-                        resourceName = res.getResourceEntryName(resId);
-                    } catch (Resources.NotFoundException e) {
-                        resourceName = "0x" + Integer.toHexString(resId);
-                    }
-
                     TypedValue typedValue = new TypedValue();
                     view.getContext().getTheme().resolveAttribute(resId,typedValue,true);
-                    //TypedArray a = view.getContext().obtainStyledAttributes(resId,R.styleable.AppCompatTheme);
-                    //int realId = a.getResourceId(a.getIndex(0),-1);
-                    LogW.d("lookView","value:" + value + " resourceName=>" + resourceName + " typedValue:" + typedValue.resourceId);
-                    //a.recycle();
                     resId = typedValue.resourceId;
                 }else{
                     //正常以@开头的
@@ -80,6 +60,10 @@ public class SkinAttribute {
             }
         }
         skinAttrViewList.add(skinAttrView);
+
+        if(!SkinResource.getInstance().isDefaultSkin()){
+            skinAttrView.applySkin();
+        }
     }
 
     public void applySkin(){
@@ -109,14 +93,14 @@ public class SkinAttribute {
             for (SkinAttr attr:attrList) {
                 switch (attr.name){
                     case "background":
-//                        Object background = SkinResource.getInstance().getBackground(attr.value);
-//                    if(background instanceof Drawable){
-//                        view.setBackground((Drawable) background);
-//                        LogW.d("applySkin","setBackground: from " + attr.value+" to "+ background);
-//                    }else{
-//                        view.setBackgroundColor((Integer) background);
-//                        LogW.d("applySkin","setBackgroundColor: from " + attr.value+" to "+ background);
-//                    }
+                        Object background = SkinResource.getInstance().getBackground(attr.value);
+                        if(background instanceof Drawable){
+                            view.setBackground((Drawable) background);
+                            LogW.d("applySkin","setBackground: from " + attr.value+" to "+ background);
+                        }else{
+                            view.setBackgroundColor((Integer) background);
+                            LogW.d("applySkin","setBackgroundColor: from " + attr.value+" to "+ background);
+                        }
                         break;
                     case "textColor":
                         if(view instanceof TextView){

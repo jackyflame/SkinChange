@@ -42,6 +42,10 @@ public class SkinResource {
         this.isDefaultSkin = false;
     }
 
+    public boolean isDefaultSkin(){
+        return isDefaultSkin;
+    }
+
     public int getSkinIdentify(int resId){
         String resEntryName = appRes.getResourceEntryName(resId);
         //String resName = appRes.getResourceName(resId);
