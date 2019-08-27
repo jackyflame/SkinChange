@@ -17,6 +17,10 @@ import com.jf.skinchange.ui.main.SectionsPagerAdapter;
 
 public class HomeActivity extends AppCompatActivity {
 
+    static {
+        System.loadLibrary("file-lib");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,4 +44,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    public native void writeTest();
+
+    public native void readTest();
+
 }
