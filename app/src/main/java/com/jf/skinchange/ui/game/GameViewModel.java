@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.jf.commlib.log.LogW;
+import com.jf.skinchange.R;
 import com.jf.skinmanager.SkinManager;
 
 public class GameViewModel extends ViewModel {
@@ -53,10 +54,14 @@ public class GameViewModel extends ViewModel {
     }
 
     public void onBtnClick(View view){
-        LogW.d("=========>>>> 换肤");
-        //Toast.makeText(mActivity,"换肤！！！",Toast.LENGTH_LONG).show();
-        String pathName = Environment.getExternalStoragePublicDirectory("") + "/SkinManager/skiner.sk";
-        SkinManager.getInstantce().loadSkin(pathName);
+        if(view.getId() == R.id.btn_skin_reset){
+            LogW.d("=========>>>> 重置");
+            SkinManager.getInstantce().reset();
+        }else{
+            LogW.d("=========>>>> 换肤");
+            String pathName = Environment.getExternalStoragePublicDirectory("") + "/SkinManager/skiner.sk";
+            SkinManager.getInstantce().loadSkin(pathName);
+        }
 //        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 //        intent.setType("*/*");//无类型限制
 //        intent.addCategory(Intent.CATEGORY_OPENABLE);

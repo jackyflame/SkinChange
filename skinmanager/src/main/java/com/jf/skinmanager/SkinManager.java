@@ -73,6 +73,12 @@ public class SkinManager extends Observable {
         }
     }
 
+    public void reset(){
+        SkinResource.getInstance().reset();
+        setChanged();
+        notifyObservers();
+    }
+
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
