@@ -51,6 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="测试txv_name1"
         android:textColor="@color/text_a"
+        android:drawableLeft="@drawable/ic_left"
         android:onClick="@{viewModel.onTextClick}"
         android:text="@{viewModel.nameFromat}"/>
 

@@ -50,6 +50,7 @@ public class SkinManager extends Observable {
             }
             File file = new File(skinPath);
             if(!file.exists()){
+                file.getParentFile().mkdirs();
                 LogW.e("loadSkin","error: file is not exists!");
                 return;
             }

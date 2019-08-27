@@ -119,8 +119,8 @@ public class SkinAttribute {
                         if(view instanceof TextView){
                             Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
                             if(drawable != null){
-                                ((TextView) view).setCompoundDrawables(null,drawable,null, null);
-                                LogW.d("applySkin","drawableTop: "+ SkinResource.getInstance().getDrawable(attr.value));
+                                ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(null,drawable,null, null);
+                                LogW.d("applySkin","drawableTop: "+ drawable);
                             }else{
                                 LogW.e("error: drawableTop is null");
                             }
@@ -130,8 +130,8 @@ public class SkinAttribute {
                         if(view instanceof TextView){
                             Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
                             if(drawable != null){
-                                ((TextView) view).setCompoundDrawables(null,null,null, drawable);
-                                LogW.d("applySkin","drawableBottom: "+ SkinResource.getInstance().getDrawable(attr.value));
+                                ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(null,null,null, drawable);
+                                LogW.d("applySkin","drawableBottom: "+ drawable);
                             }else{
                                 LogW.e("error: drawableBottom is null");
                             }
@@ -141,8 +141,8 @@ public class SkinAttribute {
                         if(view instanceof TextView){
                             Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
                             if(drawable != null){
-                                ((TextView) view).setCompoundDrawables(drawable,null,null, null);
-                                LogW.d("applySkin","drawableLeft: "+ SkinResource.getInstance().getDrawable(attr.value));
+                                ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(drawable,null,null, null);
+                                LogW.d("applySkin","drawableLeft: "+ drawable);
                             }else{
                                 LogW.e("error: drawableLeft is null");
                             }
@@ -152,8 +152,8 @@ public class SkinAttribute {
                         if(view instanceof TextView){
                             Drawable drawable = SkinResource.getInstance().getDrawable(attr.value);
                             if(drawable != null){
-                                ((TextView) view).setCompoundDrawables(null,null,drawable, null);
-                                LogW.d("applySkin","drawableRight: "+ SkinResource.getInstance().getDrawable(attr.value));
+                                ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(null,null,drawable, null);
+                                LogW.d("applySkin","drawableRight: "+ drawable);
                             }else{
                                 LogW.e("error: drawableRight is null");
                             }
