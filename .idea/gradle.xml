@@ -3,18 +3,21 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT" />
+        </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ModelA" />
-            <option value="$PROJECT_DIR$/ModelB" />
             <option value="$PROJECT_DIR$/RouterAnotation" />
             <option value="$PROJECT_DIR$/RouterApi" />
             <option value="$PROJECT_DIR$/RouterCompiler" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commlib" />
+            <option value="$PROJECT_DIR$/modelb" />
             <option value="$PROJECT_DIR$/skiner" />
             <option value="$PROJECT_DIR$/skinmanager" />
           </set>
