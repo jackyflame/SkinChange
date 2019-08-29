@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.jf.commlib.log.LogW;
 import com.jf.modela.AHomeActivity;
 import com.jf.skinchange.R;
 import com.jf.skinchange.ui.game.GameActivity;
@@ -18,7 +19,7 @@ import com.jf.skinchange.ui.main.SectionsPagerAdapter;
 public class HomeActivity extends AppCompatActivity {
 
     static {
-        System.loadLibrary("file-lib");
+        System.loadLibrary("native-lib");
     }
 
     @Override
@@ -43,10 +44,13 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, AHomeActivity.class));
             }
         });
+
+        writeTest("writeTest go go go !");
+        LogW.d("readTest >>>" + readTest());
     }
 
-    public native void writeTest();
+    public native void writeTest(String msg);
 
-    public native void readTest();
+    public native String readTest();
 
 }
