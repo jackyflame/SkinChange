@@ -95,6 +95,9 @@ dependencies {
 
     annotationProcessor "android.arch.lifecycle:compiler:$depVersion.lifecycle_version"
 
+    testImplementation 'org.ow2.asm:asm:7.2-beta'
+    testImplementation 'org.ow2.util.asm:asm:3.1'
+
 //    // 仅用 ViewModel
 //    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"
 //    // 仅用 LiveData
