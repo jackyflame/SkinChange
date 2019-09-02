@@ -3,28 +3,53 @@
 //
 #include<jni.h>
 #include <string>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <android/log.h>
+#include <unistd.h>
 
 const char* cacheMsg;
-jstring msgParam;
+jstring msgCache;
+int m_fd,m_size;
+int8_t* m_ptr;
+
+#define  LOG(...) __android_log_print(ANDROID_LOG_ERROR,"JF.ROUTER.JNI",__VA_ARGS__);
 
 extern "C"
 void JNICALL
 Java_com_jf_skinchange_ui_main_HomeActivity_writeTest(JNIEnv *env, jobject thiz, jstring msg){
+
     jboolean isCopy;
     cacheMsg = env->GetStringUTFChars(msg, &isCopy);
-    msgParam = msg;
-    printf("isCopy:%d\n",isCopy);
+    LOG("isCopy:%d\n",isCopy);
+    msgCache = msg;
+    std::string filePath = "/sdcard/mmapTest.txt";
+
+    m_fd = open(filePath.c_str(),O_RDWR|O_CREAT,S_IRWXU);
+    m_size = getpagesize();
+    //设置文件大小:m_size
+    ftruncate(m_fd,m_size);
+    //映射文件
+    m_ptr = (int8_t *)mmap(0,m_size,PROT_READ|PROT_WRITE,MAP_SHARED,m_fd,0);
+
+    std::string myStr("123456!!!");
+
+    memcpy(m_ptr,myStr.data(),myStr.size());
+
+    LOG("写入数据:%s",myStr.c_str());
 }
 
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_jf_skinchange_ui_main_HomeActivity_readTest(JNIEnv *env, jobject thiz) {
+
     if(cacheMsg == NULL){
         return NULL;
     }
     char buff[128] = {0};
     sprintf(buff,"hello %s",cacheMsg);
 
-    std::string hello = strcat("111","233333");
+    std::string hello = strcat(reinterpret_cast<char *>(msgCache), "233333");
+
     return env->NewStringUTF(hello.c_str());
 }
