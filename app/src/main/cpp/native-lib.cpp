@@ -8,8 +8,6 @@
 #include <android/log.h>
 #include <unistd.h>
 
-const char* cacheMsg;
-jstring msgCache;
 int m_fd,m_size;
 int8_t* m_ptr;
 
@@ -19,20 +17,16 @@ extern "C"
 void JNICALL
 Java_com_jf_skinchange_ui_main_HomeActivity_writeTest(JNIEnv *env, jobject thiz, jstring msg){
 
-    jboolean isCopy;
-    cacheMsg = env->GetStringUTFChars(msg, &isCopy);
-    LOG("isCopy:%d\n",isCopy);
-    msgCache = msg;
     std::string filePath = "/sdcard/mmapTest.txt";
-
     m_fd = open(filePath.c_str(),O_RDWR|O_CREAT,S_IRWXU);
+    //获取一页内存，linux采用分页来管理内存，内存管理中以页为单位，一般32位Linux系统为4096个字节
     m_size = getpagesize();
     //设置文件大小:m_size
     ftruncate(m_fd,m_size);
     //映射文件
     m_ptr = (int8_t *)mmap(0,m_size,PROT_READ|PROT_WRITE,MAP_SHARED,m_fd,0);
 
-    std::string myStr("123456!!!");
+    std::string myStr("文件写入成功啦!!!");
 
     memcpy(m_ptr,myStr.data(),myStr.size());
 
@@ -43,13 +37,13 @@ extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_jf_skinchange_ui_main_HomeActivity_readTest(JNIEnv *env, jobject thiz) {
 
-    if(cacheMsg == NULL){
-        return NULL;
-    }
-    char buff[128] = {0};
-    sprintf(buff,"hello %s",cacheMsg);
+    std::string filePath = "/sdcard/mmapTest.txt";
+    //打开文件
+    m_fd = open(filePath.c_str(),O_RDWR|O_CREAT,S_IRWXU);
+    //映射文件
+    m_ptr = (int8_t *)mmap(0,m_size,PROT_READ,MAP_SHARED,m_fd,0);
 
-    std::string hello = strcat(reinterpret_cast<char *>(msgCache), "233333");
+    memcpy()
 
-    return env->NewStringUTF(hello.c_str());
+    return env->NewStringUTF("");
 }
