@@ -67,6 +67,10 @@ public class SkinAttribute {
     }
 
     public void applySkin(){
+        if(!SkinResource.getInstance().isSkinResExits()){
+            LogW.e("applySkin","error: skinRes is not exits");
+            return;
+        }
         for (SkinAttrView view:skinAttrViewList) {
             view.applySkin();
         }
@@ -88,6 +92,10 @@ public class SkinAttribute {
         public void applySkin(){
             if(view == null){
                 LogW.e("applySkin","error: view is null");
+                return;
+            }
+            if(!SkinResource.getInstance().isSkinResExits()){
+                LogW.e("applySkin","error: skinRes is not exits");
                 return;
             }
             for (SkinAttr attr:attrList) {

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.jf.commlib.log.LogW;
 import com.jf.skinchange.R;
 import com.jf.skinchange.databinding.ActivityGameBinding;
+import com.jf.skinchange.livedata.LiveDataBus_Ver1;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -45,6 +46,16 @@ public class GameActivity extends AppCompatActivity {
                 LogW.d("nameFromat2"," value change:"+s);
             }
         });
+
+        //同样根据标签“bus1”获取发送过来的消息，这个消息是可以跨页面发送的，所以基本上已经跟我们平日里使用的eventbus相同了
+        LiveDataBus_Ver1.get()
+                .with("bus1",String.class)
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String msg) {
+                        LogW.d("LiveDataBus_Ver1"," msg received:"+msg);
+                    }
+                });
     }
 
     @Override

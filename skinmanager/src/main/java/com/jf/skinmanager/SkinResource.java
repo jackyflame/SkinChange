@@ -98,4 +98,8 @@ public class SkinResource {
         }
         return skinRes.getDrawable(skinId);
     }
+
+    public boolean isSkinResExits(){
+        return skinRes != null;
+    }
 }

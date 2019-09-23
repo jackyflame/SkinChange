@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.jf.skinchange.R;
 import com.jf.skinchange.databinding.ActivityGame2Binding;
+import com.jf.skinchange.livedata.LiveDataBus_Ver1;
 
 public class Game2Activity extends AppCompatActivity {
 
@@ -26,5 +27,9 @@ public class Game2Activity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         viewModel.name.setValue("12345555");
+
+        LiveDataBus_Ver1.get()
+                .with("bus1")
+                .setValue("send msg 1");
     }
 }
