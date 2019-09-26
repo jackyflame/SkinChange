@@ -1,6 +1,6 @@
 package com.jf.skinchange.livedata;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.HashMap;
 import java.util.Map;

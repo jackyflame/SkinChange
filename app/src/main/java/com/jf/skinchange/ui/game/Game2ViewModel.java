@@ -1,17 +1,15 @@
 package com.jf.skinchange.ui.game;
 
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
-import android.arch.lifecycle.ViewModel;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
 import com.jf.commlib.log.LogW;
-import com.jf.skinmanager.SkinManager;
 
 public class Game2ViewModel extends ViewModel {
 
