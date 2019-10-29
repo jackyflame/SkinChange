@@ -16,10 +16,10 @@ public class ShareReflectUtil {
         throw new NoSuchFieldException("Field["+name+"] not found in "+instance.getClass());
     }
 
-    public static Method getMethod(Object instance, String name) throws NoSuchMethodException {
+    public static Method getMethod(Object instance, String name, Class<?>... parameterTypes) throws NoSuchMethodException {
         for(Class<?> cls = instance.getClass();cls != null; cls = cls.getSuperclass()){
             try {
-                Method method = cls.getDeclaredMethod(name,cls);
+                Method method = cls.getDeclaredMethod(name, parameterTypes);
                 method.setAccessible(true);
                 return method;
             } catch (NoSuchMethodException e) {}
