@@ -2,6 +2,7 @@ package com.jf.hotfixlib;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -15,8 +16,17 @@ import java.util.ArrayList;
 public class JFix {
 
     public static void installPatch(Context context, String path) {
-
         try {
+            if(TextUtils.isEmpty(path)){
+                Log.e("JFix","installPatch error: path is empty");
+                return;
+            }
+            File pathFile = new File(path);
+            if(!pathFile.exists()){
+                Log.e("JFix","installPatch error: pathFile is not exists");
+                return;
+            }
+
             ClassLoader classLoader = context.getClassLoader();
             //获取私有目录
             File cacheDir = context.getCacheDir();
@@ -39,7 +49,7 @@ public class JFix {
 
             Object[] pathElements = null;
             //4.4之前版本
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT){
+            if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
                 pathElements = getPathElementsOld(pathList,path,cacheDir);
             //4.4以后
             }else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -89,7 +99,7 @@ public class JFix {
     private static Object[] getPathElementsV4(Object pathList, String patchPath, File optimizedDirectory)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         //获取makeDexElements方法
-        Method makeDexElements = ShareReflectUtil.getMethod(pathList, "makeDexElements");
+        Method makeDexElements = ShareReflectUtil.getMethod(pathList, "makePathElements");
         //optimizedDirectory:优化dex存放地址，必须是APP内置地址
         ArrayList<IOException> suppressedExceptions = new ArrayList<>();
         //fileList
