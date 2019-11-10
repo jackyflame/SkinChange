@@ -38,5 +38,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="10dp"
+        android:onClick="@{viewModel.onBtnClick}"
+        android:src="@{viewModel.imgRes}"
+        app:layout_constraintTop_toBottomOf="@+id/txv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -26,7 +26,7 @@ public class Game2Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
-        viewModel.name.setValue("12345555-fix-it lol!!");
+        viewModel.name.setValue("12345555");
 
         LiveDataBus_Ver1.get()
                 .with("bus1")

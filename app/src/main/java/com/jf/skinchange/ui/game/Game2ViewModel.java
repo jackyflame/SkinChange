@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.jf.commlib.log.LogW;
+import com.jf.skinchange.R;
 
 public class Game2ViewModel extends ViewModel {
 
     private Game2Activity activity;
     public MutableLiveData<String> name = new MutableLiveData<>();
+    public MutableLiveData<Integer> img = new MutableLiveData<>();
     public LiveData<String> nameFromat = Transformations.map(name, new Function<String, String>() {
         @Override
         public String apply(String input) {
@@ -34,6 +36,7 @@ public class Game2ViewModel extends ViewModel {
 
     public Game2ViewModel() {
         Log.d("ViewModel","GameViewModel create!!!");
+        img.setValue(R.drawable.ic_left);
     }
 
     public String getTitle(){
@@ -59,5 +62,9 @@ public class Game2ViewModel extends ViewModel {
 
     public void setActivity(Game2Activity game2Activity) {
         this.activity = game2Activity;
+    }
+
+    public int getImgRes(){
+        return R.drawable.ic_left;
     }
 }

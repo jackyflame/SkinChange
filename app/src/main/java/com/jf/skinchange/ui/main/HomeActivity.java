@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        writeTest("writeTest go go go !");
+        //writeTest("writeTest go go go !");
         LogW.d("--------------readTest >>>" + readTest());
     }
 
