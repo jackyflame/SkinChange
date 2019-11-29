@@ -98,7 +98,7 @@ dependencies {
 
     testImplementation 'org.ow2.asm:asm:7.2-beta'
     testImplementation 'org.ow2.asm:asm-commons:7.2-beta'
-    implementation project(path: ':hotfixlib')
+    api project(path: ':hotfixlib')
 
 //    // 仅用 ViewModel
 //    implementation "android.arch.lifecycle:viewmodel:$lifecycle_version"

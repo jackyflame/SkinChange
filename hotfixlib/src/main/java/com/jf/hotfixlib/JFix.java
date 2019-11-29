@@ -110,14 +110,14 @@ public class JFix {
         return (Object[]) patchDexElements;
     }
 
-    private static Object[] getPathElementsV6(Object pathList, String patchPath, File optimizedDirectory)
+    private static Object[] getPathElementsV6(Object dexPathList, String patchPath, File optimizedDirectory)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         //获取makePathElements方法
-        Method makeDexElements = ShareReflectUtil.getMethod(pathList, "makePathElements");
+        Method makeDexElements = ShareReflectUtil.getMethod(dexPathList, "makePathElements");
         //optimizedDirectory:优化dex存放地址，必须是APP内置地址
         ArrayList<IOException> suppressedExceptions = new ArrayList<>();
         //fileList
-        Method splitDexPathMethod = ShareReflectUtil.getMethod(pathList, "splitDexPath");
+        Method splitDexPathMethod = ShareReflectUtil.getMethod(dexPathList, "splitDexPath");
         Object fileList = splitDexPathMethod.invoke(null, patchPath);
         //执行
         Object patchDexElements = makeDexElements.invoke(null, fileList, optimizedDirectory, suppressedExceptions);

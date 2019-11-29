@@ -2,11 +2,12 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.guava:guava:24.1-jre'
-    implementation 'com.google.auto:auto-common:0.10'
+    //implementation 'com.google.guava:guava:24.1-jre'
+    //implementation 'com.google.auto:auto-common:0.10'
     implementation project(path: ':RouterAnotation')
     implementation 'com.squareup:javapoet:1.11.1'
-    //implementation "com.google.auto.service.auto-service:1.0-rc2"
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'//这个在gradle5.0以上需要
+    implementation 'com.google.auto.service:auto-service:1.0-rc6'//自动配置的
 }
 
 sourceCompatibility = "7"
