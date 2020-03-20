@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.jf.commlib.log.LogW;
 import com.jf.skinchange.R;
+import com.jf.skinchange.ui.cpx.NestedActivity;
 import com.jf.skinchange.ui.game.Game2Activity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -39,12 +40,12 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                startActivity(new Intent(HomeActivity.this, Game2Activity.class));
+                startActivity(new Intent(HomeActivity.this, NestedActivity.class));
             }
         });
 
         //writeTest("writeTest go go go !");
-        LogW.d("--------------readTest >>>" + readTest());
+        //LogW.d("--------------readTest >>>" + readTest());
     }
 
     public native void writeTest(String msg);

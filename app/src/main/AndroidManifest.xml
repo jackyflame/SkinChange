@@ -10,7 +10,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${APP_NAME}"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.game.Game2Activity"
@@ -28,6 +27,10 @@
         <activity
             android:name=".ui.proxy.StubActivity"/>
 
+        <activity
+            android:name=".ui.cpx.NestedActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.main.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
