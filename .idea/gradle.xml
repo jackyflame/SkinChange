@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commlib" />
             <option value="$PROJECT_DIR$/hotfixlib" />
+            <option value="$PROJECT_DIR$/proxylib" />
             <option value="$PROJECT_DIR$/skiner" />
             <option value="$PROJECT_DIR$/skinmanager" />
           </set>
